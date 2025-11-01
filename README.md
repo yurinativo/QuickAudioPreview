@@ -20,5 +20,4 @@ Your Godot directory structure should look like this:
 res://
     addons
         QuickAudioPreview
-            ...all the ridiculous coding files...
 ```
