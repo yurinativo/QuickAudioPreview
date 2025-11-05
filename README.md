@@ -17,7 +17,5 @@ You might need to close and open your editor or open a new script file to start 
 Your Godot directory structure should look like this:
 
 ```
-res://
-    addons
-        QuickAudioPreview
+res://addons/QuickAudioPreview
 ```
