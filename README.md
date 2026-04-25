@@ -5,7 +5,10 @@ Written by Yuri Natividade
 ## What does it do?
 
 Click on a audio asset at the File System tree to play the audio.
-Click again, while playing, to stop the audio.
+Click again, while playing, to pause the audio.
+Show a Audio Preview Panel to control the playback.
+
+![Demo](media/demo.gif)
 
 ## Installation
 
