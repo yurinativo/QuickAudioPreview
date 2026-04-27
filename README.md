@@ -10,7 +10,8 @@ Show a Audio Preview Panel to control the playback.
 
 ![Demo](media/demo.gif)
 
-Youtube Demo:
+Youtube Link:
+
 [![Video](https://img.youtube.com/vi/2TGvnwDJRME/0.jpg)](https://www.youtube.com/watch?v=2TGvnwDJRME)
 
 ## Installation
