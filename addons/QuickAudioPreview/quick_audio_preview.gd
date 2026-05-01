@@ -42,7 +42,7 @@ class WaveformDisplay extends Control:
 
 
 var _player: AudioStreamPlayer
-var _fs_tree: Tree
+var _fs_trees: Array[Tree] = []
 var _current_path: String = ""
 var _paused_position: float = 0.0
 var _is_paused: bool = false
@@ -70,9 +70,9 @@ func _enter_tree() -> void:
 	set_process(true)
 
 	var fsdock := get_editor_interface().get_file_system_dock()
-	_fs_tree = _find_tree(fsdock)
-	if _fs_tree:
-		_fs_tree.item_mouse_selected.connect(_on_item_mouse_selected)
+	_find_all_trees(fsdock, _fs_trees)
+	for tree in _fs_trees:
+		tree.item_mouse_selected.connect(_on_item_mouse_selected)
 
 	_build_panel()
 	add_control_to_bottom_panel(_panel, "Audio Preview")
@@ -88,8 +88,10 @@ func _exit_tree() -> void:
 		if t.is_started():
 			t.wait_to_finish()
 	_finished_threads.clear()
-	if is_instance_valid(_fs_tree) and _fs_tree.item_mouse_selected.is_connected(_on_item_mouse_selected):
-		_fs_tree.item_mouse_selected.disconnect(_on_item_mouse_selected)
+	for tree in _fs_trees:
+		if is_instance_valid(tree) and tree.item_mouse_selected.is_connected(_on_item_mouse_selected):
+			tree.item_mouse_selected.disconnect(_on_item_mouse_selected)
+	_fs_trees.clear()
 	if is_instance_valid(_player):
 		_player.queue_free()
 	if is_instance_valid(_panel):
@@ -178,14 +180,11 @@ func _on_seek_ended(changed: bool) -> void:
 		_waveform.set_playhead(_slider.value)
 
 
-func _find_tree(n: Node) -> Tree:
+func _find_all_trees(n: Node, result: Array[Tree]) -> void:
 	if n is Tree:
-		return n
+		result.append(n)
 	for c in n.get_children():
-		var t := _find_tree(c)
-		if t:
-			return t
-	return null
+		_find_all_trees(c, result)
 
 
 func _on_item_mouse_selected(_pos: Vector2, button: int) -> void:
